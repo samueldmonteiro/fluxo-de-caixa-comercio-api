@@ -1,0 +1,14 @@
+yarn init -y
+yarn add express prisma @prisma/client reflect-metadata tsyringe jsonwebtoken bcryptjs && \
+yarn add -D typescript tsx @types/node @types/express @types/jsonwebtoken @types/bcryptjs && \
+npx tsc --init && \
+npx prisma init
+yarn add cors morgan @types/morgan @types/cors
+ yarn add @prisma/adapter-mariadb
+ yarn add express-list-endpoints
+
+dev:
+prisma:migrate
+deploy:
+prisma:generate
+prisma:deploy

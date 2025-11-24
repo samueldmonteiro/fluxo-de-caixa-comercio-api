@@ -1,0 +1,49 @@
+import { PrismaClient } from '../generated/prisma/client';
+import prisma from '../config/prisma'
+
+export abstract class Repository<T> {
+  protected prisma: PrismaClient
+  constructor(
+    private readonly model: string
+  ) {
+    this.prisma = prisma;
+  }
+
+  async create(data: any): Promise<T> {
+    return (this.prisma[this.model as any] as any).create({ data });
+  }
+
+  async findById(id: string | number): Promise<T | null> {
+    return (this.prisma[this.model as any] as any).findUnique({
+      where: { id }
+    });
+  }
+
+  async findOne(where: any): Promise<T | null> {
+    return (this.prisma[this.model as any] as any).findFirst({ where });
+  }
+
+  async findMany(where?: any, options?: any): Promise<T[]> {
+    return (this.prisma[this.model as any] as any).findMany({
+      where,
+      ...options
+    });
+  }
+
+  async update(id: string | number, data: any): Promise<T> {
+    return (this.prisma[this.model as any] as any).update({
+      where: { id },
+      data
+    });
+  }
+
+  async delete(id: string | number): Promise<T> {
+    return (this.prisma[this.model as any] as any).delete({
+      where: { id }
+    });
+  }
+
+  async count(where?: any): Promise<number> {
+    return (this.prisma[this.model as any] as any).count({ where });
+  }
+}

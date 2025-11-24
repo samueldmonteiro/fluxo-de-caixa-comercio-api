@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    // Output
+    "target": "ES2020",
+    "module": "node16",
+    "moduleResolution": "node16",
+    "rootDir": "src",
+    "outDir": "dist",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    // Strictness
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // Compatibility
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Decorators (tsyringe)
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    // Node types
+    "types": ["node"],
+
+    // Module behavior
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": false,
+
+    // JSON imports
+    "resolveJsonModule": true
+  },
+  "include": ["src", "generated/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

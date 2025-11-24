@@ -1,0 +1,42 @@
+{
+  "name": "fluxo-caixa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:samueldmonteiro/fluxo-de-caixa-comercio-api.git",
+  "author": "Samuel D. Monteiro <samuel.dvmonteiro@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/adapter-mariadb": "^7.0.0",
+    "@prisma/client": "^7.0.0",
+    "@types/cors": "^2.8.19",
+    "@types/express-list-endpoints": "^7.1.0",
+    "@types/morgan": "^1.9.10",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "express-list-endpoints": "^7.1.1",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.1",
+    "prisma": "^7.0.0",
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.10.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
+    "@types/express": "^5.0.5",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.10.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "routes": "tsx src/config/listRoutes.ts",
+    "seed": "tsx prisma/seed.ts"
+  }
+}
