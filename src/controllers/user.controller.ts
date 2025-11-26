@@ -6,14 +6,17 @@ import { UserMapper } from "../mappers/user.mapper";
 import { MovementMapper } from "../mappers/movement.mapper";
 import { AppError } from "../errors/app.error";
 import { UserService } from "../services/user.service";
+import { CategoryService } from "../services/category.service";
+import { CategoryRepository } from "../repositories/category.repository";
+import { Prisma } from "../generated/prisma/client";
 
 @injectable()
 export class UserController {
   constructor(
     @inject(UserRepository) private userRepo: UserRepository,
     @inject(MovementRepository) private movementRepo: MovementRepository,
-    @inject(UserService) private service: UserService,
-
+    @inject(UserService) private userService: UserService,
+    @inject(CategoryRepository) private categoryRepo: CategoryRepository,
   ) { }
 
   getUsers = async (req: Request, res: Response) => {
@@ -23,7 +26,8 @@ export class UserController {
 
   movements = async (req: Request, res: Response) => {
     try {
-      const { search, page, limit, startDate, endDate } = req.validated;
+      console.log("AQUIII", req.validated)
+      const { search, page, limit, startDate, endDate } = req.query;
 
       const params: SimpleGetMovementsParams = {
         userId: req.user.sub,
@@ -56,11 +60,32 @@ export class UserController {
   movementMetrics = async (req: Request, res: Response) => {
     const { startDate, endDate } = req.validated;
 
-    const movements = await this.service.movementMetrics(Number(req.user.sub), {
+    const movements = await this.userService.movementMetrics(Number(req.user.sub), {
       ...(startDate && { startDate: new Date(String(startDate)) }),
       ...(endDate && { endDate: new Date(String(endDate)) }),
     })
 
     return res.json(movements);
+  }
+
+  categories = async (req: Request, res: Response) => {
+    const categories = await this.categoryRepo.getByUserId(req.user.sub);
+    return res.json(categories);
+  }
+
+  category = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+
+    const categorie = await this.categoryRepo.findByIdAndUserId(id, req.user.sub);
+    if (!categorie) throw new AppError('Categoria Inexistente', 404);
+    return res.json(categorie);
+  }
+
+  categoryMovements = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+
+    const categorie = await this.categoryRepo.findByIdAndUserId(id, req.user.sub, { movements: true });
+    if (!categorie) throw new AppError('Categoria Inexistente', 404);
+    return res.json(categorie);
   }
 }

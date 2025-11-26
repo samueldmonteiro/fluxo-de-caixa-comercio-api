@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import routes from './routes';
 import {errorHandlerMiddleware } from './middlewares/errorHandler.middleware';
+import { setupSwagger } from './config/swagger';
 
 const app: Application = express();
 
@@ -13,6 +14,7 @@ app.use(morgan('dev'));
 
 // Prefixo de rotas
 app.use('/api', routes);
+setupSwagger(app);
 
 // Middleware 404
 app.use((req: Request, res: Response) => {

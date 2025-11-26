@@ -35,6 +35,6 @@
     // JSON imports
     "resolveJsonModule": true
   },
-  "include": ["src", "generated/**/*"],
+  "include": ["src", "generated/**/*", "docs"],
   "exclude": ["node_modules", "dist"]
 }

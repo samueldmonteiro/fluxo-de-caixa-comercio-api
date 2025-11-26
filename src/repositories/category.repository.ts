@@ -1,4 +1,4 @@
-import { Category } from '../generated/prisma/client';
+import { Category, Prisma } from '../generated/prisma/client';
 import { Repository } from './repository';
 
 export class CategoryRepository extends Repository<Category> {
@@ -9,6 +9,13 @@ export class CategoryRepository extends Repository<Category> {
   async findByName(name: string): Promise<Category | null> {
     return this.prisma.category.findFirst({
       where: { name }
+    })
+  }
+
+  async getByUserId(userId: number, include?: Prisma.CategoryInclude) {
+    return this.prisma.category.findMany({
+      where: { userId },
+      ...(include && { include: include })
     })
   }
 }

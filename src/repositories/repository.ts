@@ -46,4 +46,16 @@ export abstract class Repository<T> {
   async count(where?: any): Promise<number> {
     return (this.prisma[this.model as any] as any).count({ where });
   }
+
+  async findByIdAndUserId<T extends object = any>(
+    id: string | number,
+    userId: string | number,
+    include?: T
+  ): Promise<(T extends object ? any : any) | null> {
+    return (this.prisma[this.model as any] as any).findFirst({
+      where: { id: Number(id), userId: Number(userId) },
+      ...(include ? { include } : {})
+    });
+  }
+
 }

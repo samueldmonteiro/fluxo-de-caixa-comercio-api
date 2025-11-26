@@ -17,7 +17,7 @@ export class AuthController {
   login = async (req: Request, res: Response) => {
     const dto = req.body as LoginDTO;
     const auth = await this.service.login(dto);
-    return res.json(auth);
+    return res.json({ message: "Usuário logado com sucesso", auth });
   }
 
   me = async (req: Request, res: Response) => {

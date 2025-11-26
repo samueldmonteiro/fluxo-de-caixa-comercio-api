@@ -90,10 +90,4 @@ export class MovementRepository extends Repository<Movement> {
       }
     };
   }
-
-  async findByIdAndUserId(id: string | number, userId: string | number): Promise<Movement | null> {
-    return this.prisma.movement.findFirst({
-      where: { id: Number(id), userId: Number(userId) }
-    });
-  }
 }
