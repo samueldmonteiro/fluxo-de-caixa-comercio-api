@@ -1,6 +1,6 @@
-# 📦 Fluxo de Comércio API
+# 📦 Fluxo de Caixa Comércio API
 
-A **Fluxo de Comércio API** é uma API moderna e modular para gestão de movimentações financeiras, categorias e métricas personalizadas por usuário.  
+Esta é uma API moderna e modular para gestão de movimentações financeiras, e visualização de métricas para análises comerciais.  
 Construída sobre uma stack sólida — **Node.js + Express + Prisma + TypeScript** — ela entrega performance, organização e extensibilidade. Tudo isso documentado com **Swagger**, porque projeto bom não deve ser um mistério.
 
 ---
@@ -36,6 +36,7 @@ src/
  ├─ app.ts
  └─ server.ts
 prisma/
+ ├─ seed.ts
  └─ schema.prisma
 ```
 
@@ -53,7 +54,7 @@ prisma/
 - cada categoria pode ter vários movimentos associados
 
 ### 💸 Movement
-- id, description, type (`INCOME` | `EXPENSE`), value, date  
+- id, useId, categoryId, description, type (`INCOME` | `EXPENSE`), value, date  
 - relacionamento com usuário e categoria
 
 ---
@@ -75,8 +76,7 @@ prisma/
 - Criar, atualizar, deletar
 
 ### 🏷️ Categorias
-- CRUD completo  
-- Impede exclusão caso existam movimentos associados
+- Criar, atualizar, deletar
 
 ---
 
@@ -90,7 +90,7 @@ http://localhost:3000/docs
 
 ---
 
-## 🛠️ Como rodar o projeto (Yarn)
+## 🛠️ Como rodar o projeto
 
 ### 1. 📥 Clonar o repositório
 
@@ -121,19 +121,15 @@ DB_DATABASE=nome_do_banco
 DB_PORT=3306 
 ```
 
-### 4. 🏗️ Gerar o client Prisma
+### AMBIENTE (DEV)
+#### 4. 🏗️ Gerar o client Prisma e rodar migrations
 
 ```bash
 yarn prisma:generate
-```
-
-### 5. 🛢️ Executar migrations
-
-```bash
 yarn prisma:migrate
 ```
 
-### 6. ▶️ Iniciar o servidor
+#### 5. ▶️ Iniciar o servidor
 
 Modo desenvolvimento:
 
@@ -141,15 +137,23 @@ Modo desenvolvimento:
 yarn dev
 ```
 
-Produção:
+### AMBIENTE (PROD)
+
+#### 4. 🏗️ Gerar o client Prisma e rodar migrations
+
+```bash
+yarn prisma:generate
+yarn prisma:deploy
+
+```
+
+#### 5. ▶️ Iniciar o servidor
+
+Modo desenvolvimento:
 
 ```bash
 yarn build
 yarn start
-
-yarn prisma:generate
-yarn prisma:deploy
-
 ```
 
 ---
@@ -170,30 +174,15 @@ Resposta esperada:
 
 ---
 
-## 🔥 Visão da arquitetura
-
-- Validações com schemas  
-- Autenticação via JWT  
-- Middlewares organizados  
-- Swagger integrado diretamente nas rotas  
-- Prisma para acesso ao banco  
-- Serviços desacoplados e testáveis  
-
----
-
 ## 🤝 Contribuições
 
 Pull requests são bem-vindos.  
-Encontrou algo a melhorar? Manda ver — software elegante é software em evolução.
 
 ---
 
-## 📜 Licença
-
-MIT — fique à vontade para usar, estudar e expandir.
 
 ---
 
 ## ✨ Autor
 
-Desenvolvido por **Davi**, com paixão por arquitetura limpa e APIs robustas.
+Desenvolvido por **Samuel Davi**
