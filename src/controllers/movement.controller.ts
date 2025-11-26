@@ -12,12 +12,12 @@ export class MovementController {
   ) { }
 
   store = async (req: Request, res: Response) => {
-    const dto = req.body as StoreMovementDTO;
+    const dto = req.validated as StoreMovementDTO;
     return res.json(await this.service.store(dto, req.user.sub));
   }
 
   update = async (req: Request, res: Response) => {
-    const dto = req.body as UpdateMovementDTO;
+    const dto = req.validated as UpdateMovementDTO;
     return res.json(await this.service.update(dto, req.user.sub, Number(req.params.id)))
 
   }

@@ -8,12 +8,13 @@ datasource db {
 }
 
 model User {
-  id        Int        @id @default(autoincrement())
-  name      String     @db.VarChar(100)
-  email     String     @unique @db.VarChar(100)
-  password  String     @db.VarChar(200)
-  movements Movement[]
-  role      UserRole   @default(USER)
+  id         Int        @id @default(autoincrement())
+  name       String     @db.VarChar(100)
+  email      String     @unique @db.VarChar(100)
+  password   String     @db.VarChar(200)
+  movements  Movement[]
+  role       UserRole   @default(USER)
+  categories Category[]
 
   @@map("users")
 }
@@ -27,6 +28,8 @@ model Category {
   id        Int        @id @default(autoincrement())
   movements Movement[]
   name      String     @db.VarChar(200)
+  userId    Int?
+  user      User?      @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@map("categories")
 }
@@ -40,7 +43,7 @@ model Movement {
   type        MovementType
   description String?      @db.Text
   value       Decimal      @db.Decimal(10, 2)
-  date        DateTime @default(now())
+  date        DateTime     @default(now())
 
   @@map("movements")
 }

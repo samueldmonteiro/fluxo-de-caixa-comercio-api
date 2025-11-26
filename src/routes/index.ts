@@ -8,6 +8,7 @@ import { createLoginSchema } from "../schemas/login.schema";
 import { MovementController } from "../controllers/movement.controller";
 import { storeMovementSchema } from "../schemas/movement/storeMovement.schema";
 import { updateMovementSchema } from "../schemas/movement/updateMovement.schema";
+import { movementMetricsSchema } from "../schemas/user/movementMetrics.schema";
 
 const routes = Router();
 
@@ -29,6 +30,12 @@ routes.post('/auth/me', authMiddleware, authController.me);
 // USER
 routes.get('/users', userController.getUsers);
 routes.get('/me/movements', authMiddleware, userController.movements);
+routes.get(
+  '/me/movements/metrics',
+  [authMiddleware, validateMiddleware(movementMetricsSchema, 'query')],
+  userController.movementMetrics
+);
+
 routes.get('/me/movements/:id', authMiddleware, userController.movement);
 
 

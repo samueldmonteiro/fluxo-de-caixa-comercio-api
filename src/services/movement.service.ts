@@ -29,7 +29,7 @@ export class MovementService {
       if (searchCategoryName) {
         category = searchCategoryName;
       } else {
-        category = await this.categoryRepo.create<Omit<Category, 'id'>>({ name: dto.categoryName ?? '' });
+        category = await this.categoryRepo.create<Omit<Category, 'id'>>({ userId, name: dto.categoryName ?? '' });
       }
     }
 
@@ -70,7 +70,7 @@ export class MovementService {
       if (searchCategoryName) {
         category = searchCategoryName;
       } else {
-        category = await this.categoryRepo.create<Omit<Category, 'id'>>({ name: dto.categoryName ?? '' });
+        category = await this.categoryRepo.create<Omit<Category, 'id'>>({ userId, name: dto.categoryName ?? '' });
       }
     }
 

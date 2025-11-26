@@ -2,13 +2,16 @@ import { ZodType } from "zod";
 import { Request, Response, NextFunction } from "express";
 import { treeifyError } from "zod";
 
-export function validateMiddleware(schema: ZodType<any>) {
+export function validateMiddleware(
+  schema: ZodType<unknown>,
+  source: 'body' | 'query' | 'params' = 'body'
+) {
   return (req: Request, res: Response, next: NextFunction) => {
-    const result = schema.safeParse(req.body);
+    const result = schema.safeParse(req[source]);
 
     if (!result.success) {
       const treeifiedErrors = treeifyError(result.error);
-      
+
       return res.status(400).json({
         error: "VALIDATION_ERROR",
         message: "Dados de entrada inválidos",
@@ -16,8 +19,9 @@ export function validateMiddleware(schema: ZodType<any>) {
         timestamp: new Date().toISOString(),
       });
     }
-    
-    req.body = result.data;
+
+    req.validated = result.data;
+
     next();
   };
 }

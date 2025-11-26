@@ -1,4 +1,4 @@
-import { Movement, Prisma } from '../generated/prisma/client';
+ import { Movement, Prisma } from '../generated/prisma/client';
 import { PaginatedResponse } from '../types/pagination';
 import { Repository } from './repository';
 
@@ -12,12 +12,23 @@ export interface SimpleGetMovementsParams {
   endDate?: Date;
 }
 
+type MovementResult<TInclude extends Prisma.MovementInclude | null> =
+  TInclude extends null
+  ? Movement
+  : Prisma.MovementGetPayload<{ include: TInclude }>;
+
+
 export class MovementRepository extends Repository<Movement> {
   constructor() {
     super('movement');
   }
 
-  async getByUserId(params: SimpleGetMovementsParams): Promise<PaginatedResponse<Movement>> {
+  async getByUserId<
+    TInclude extends Prisma.MovementInclude | null = null
+  >(
+    params: SimpleGetMovementsParams & { include?: TInclude }
+  ): Promise<PaginatedResponse<MovementResult<TInclude>>> {
+
     const {
       userId,
       include,
@@ -46,46 +57,36 @@ export class MovementRepository extends Repository<Movement> {
       const isNumeric = !isNaN(numericSearch) && isFinite(numericSearch);
 
       where.OR = [
-        {
-          description: {
-            contains: search,
-          }
-        },
-        {
-          category: {
-            is: {
-              name: {
-                contains: search,
-              }
-            }
-          }
-        },
-        ...(isNumeric ? [{ value: { equals: numericSearch } }] : [])
+        { description: { contains: search } },
+        { category: { is: { name: { contains: search } } } },
+        ...(isNumeric ? [{ value: { equals: numericSearch } }] : []),
       ];
     }
+
+    const paginationEnabled = limit !== 0;
 
     const [data, total] = await Promise.all([
       this.prisma.movement.findMany({
         where,
-        include: include ?? null,
-        take: limit,
-        skip,
+        ...(include ? { include } : {}), // <-- só envia quando existe
+        ...(paginationEnabled ? { take: limit, skip } : {}),
         orderBy: { id: 'desc' }
       }),
       this.prisma.movement.count({ where })
     ]);
 
-    const totalPages = Math.ceil(total / limit);
+
+    const totalPages = paginationEnabled ? Math.ceil(total / limit) : 1;
 
     return {
-      data,
+      data: data as MovementResult<TInclude>[], // <-- o cast agora é seguro
       pagination: {
-        page,
+        page: paginationEnabled ? page : 1,
         limit,
         total,
         totalPages,
-        hasNext: page < totalPages,
-        hasPrev: page > 1,
+        hasNext: paginationEnabled ? page < totalPages : false,
+        hasPrev: paginationEnabled ? page > 1 : false,
       }
     };
   }
