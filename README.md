@@ -1,1 +1,199 @@
-# fluxo-de-caixa-comercio-api
+# 📦 Fluxo de Comércio API
+
+A **Fluxo de Comércio API** é uma API moderna e modular para gestão de movimentações financeiras, categorias e métricas personalizadas por usuário.  
+Construída sobre uma stack sólida — **Node.js + Express + Prisma + TypeScript** — ela entrega performance, organização e extensibilidade. Tudo isso documentado com **Swagger**, porque projeto bom não deve ser um mistério.
+
+---
+
+## 🚀 Tecnologias Principais
+
+- **Node.js**
+- **TypeScript**
+- **Express**
+- **Prisma ORM**
+- **MySQL**
+- **Swagger (OpenAPI)**
+- **JWT Authentication**
+- **TSyringe (DI)**
+
+---
+
+## 📂 Estrutura do Projeto (visão geral)
+
+```
+src/
+ ├─ controllers/
+ ├─ middlewares/
+ ├─ schemas/
+ ├─ errors/
+ ├─ types/
+ ├─ config/
+ ├─ mappers/
+ ├─ services/
+ ├─ repositories/
+ ├─ generated/prisma/
+ ├─ routes/
+ ├─ app.ts
+ └─ server.ts
+prisma/
+ └─ schema.prisma
+```
+
+---
+
+## 🧩 Modelos principais (Prisma)
+
+### 👤 User
+- id, name, email, password  
+- role (`USER` | `ADMIN`)  
+- relacionamentos: Movements e Categories
+
+### 🏷️ Category
+- id, name, userId  
+- cada categoria pode ter vários movimentos associados
+
+### 💸 Movement
+- id, description, type (`INCOME` | `EXPENSE`), value, date  
+- relacionamento com usuário e categoria
+
+---
+
+## 📊 Funcionalidades
+
+### 🔐 Autenticação
+- Login  
+- Informações do usuário logado
+
+### 👤 Área do usuário
+- Listar movimentações  
+- Listar categorias  
+- Listar movimentos de uma categoria  
+- Buscar movimento ou categoria específica  
+- Métricas filtradas por data
+
+### 💸 Movimentos
+- Criar, atualizar, deletar
+
+### 🏷️ Categorias
+- CRUD completo  
+- Impede exclusão caso existam movimentos associados
+
+---
+
+## 📘 Documentação da API
+
+Após iniciar a aplicação, acesse:
+
+```
+http://localhost:3000/docs
+```
+
+---
+
+## 🛠️ Como rodar o projeto (Yarn)
+
+### 1. 📥 Clonar o repositório
+
+```bash
+git clone https://github.com/seu-usuario/fluxo-de-comercio-api.git
+cd fluxo-de-comercio-api
+```
+
+### 2. 📦 Instalar dependências
+
+```bash
+yarn
+```
+
+### 3. ⚙️ Criar o arquivo `.env`
+
+Crie o arquivo na raiz:
+
+```env
+DATABASE_URL="mysql://usuario:senha@localhost:3306/nome_do_banco"
+JWT_SECRET="sua_chave_secreta_aqui"
+PORT=3000
+NODE_ENV=development
+DB_HOST=localhost
+DB_PASSWORD=senha
+DB_USER=usuario
+DB_DATABASE=nome_do_banco
+DB_PORT=3306 
+```
+
+### 4. 🏗️ Gerar o client Prisma
+
+```bash
+yarn prisma:generate
+```
+
+### 5. 🛢️ Executar migrations
+
+```bash
+yarn prisma:migrate
+```
+
+### 6. ▶️ Iniciar o servidor
+
+Modo desenvolvimento:
+
+```bash
+yarn dev
+```
+
+Produção:
+
+```bash
+yarn build
+yarn start
+
+yarn prisma:generate
+yarn prisma:deploy
+
+```
+
+---
+
+## 🧪 Teste rápido
+
+**Ping da API:**
+
+```
+GET http://localhost:3000/api/ping
+```
+
+Resposta esperada:
+
+```json
+{ "pong": true }
+```
+
+---
+
+## 🔥 Visão da arquitetura
+
+- Validações com schemas  
+- Autenticação via JWT  
+- Middlewares organizados  
+- Swagger integrado diretamente nas rotas  
+- Prisma para acesso ao banco  
+- Serviços desacoplados e testáveis  
+
+---
+
+## 🤝 Contribuições
+
+Pull requests são bem-vindos.  
+Encontrou algo a melhorar? Manda ver — software elegante é software em evolução.
+
+---
+
+## 📜 Licença
+
+MIT — fique à vontade para usar, estudar e expandir.
+
+---
+
+## ✨ Autor
+
+Desenvolvido por **Davi**, com paixão por arquitetura limpa e APIs robustas.
