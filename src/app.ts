@@ -2,7 +2,7 @@ import express, { Application, Request, Response } from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
 import routes from './routes';
-import { errorHandler } from './middlewares/errorHandler.middleware';
+import {errorHandlerMiddleware } from './middlewares/errorHandler.middleware';
 
 const app: Application = express();
 
@@ -22,7 +22,6 @@ app.use((req: Request, res: Response) => {
   });
 });
 
-// Middleware de erro (sempre por último!)
-app.use(errorHandler);
+app.use(errorHandlerMiddleware);
 
 export default app;

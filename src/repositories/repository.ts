@@ -1,4 +1,4 @@
-import { PrismaClient } from '../generated/prisma/client';
+import { Prisma, PrismaClient } from '../generated/prisma/client';
 import prisma from '../config/prisma'
 
 export abstract class Repository<T> {
@@ -9,7 +9,7 @@ export abstract class Repository<T> {
     this.prisma = prisma;
   }
 
-  async create(data: any): Promise<T> {
+  async create<B>(data: B): Promise<T> {
     return (this.prisma[this.model as any] as any).create({ data });
   }
 
@@ -30,7 +30,7 @@ export abstract class Repository<T> {
     });
   }
 
-  async update(id: string | number, data: any): Promise<T> {
+  async update<B>(id: string | number, data: B): Promise<T> {
     return (this.prisma[this.model as any] as any).update({
       where: { id },
       data

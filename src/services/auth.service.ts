@@ -5,6 +5,7 @@ import { UserRepository } from "../repositories/user.repository";
 import { User } from "../generated/prisma/client";
 import { AppError } from "../errors/app.error";
 import { excludeParam } from "../config/functions";
+import { LoginDTO } from "../schemas/login.schema";
 
 interface LoginResponse {
   token: string
@@ -19,15 +20,15 @@ export class AuthService {
     private userRepository: UserRepository
   ) { }
 
-  async login(email: string, password: string): Promise<LoginResponse> {
+  async login(data: LoginDTO): Promise<LoginResponse> {
 
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this.userRepository.findByEmail(data.email);
 
-    if (!user) throw new AppError('Usuário não Encontrado!', 404);
+    if (!user) throw new AppError('Login Incorreto', 401);
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcrypt.compare(data.password, user.password);
 
-    if (!passwordMatch) throw new AppError('Senha Incorreta', 401);
+    if (!passwordMatch) throw new AppError('Login Incorreto', 401);
 
     const token = jwt.sign(
       {

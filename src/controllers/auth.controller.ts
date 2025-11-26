@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { UserRepository } from "../repositories/user.repository";
 import { excludeParam } from "../config/functions";
 import { User } from "../generated/prisma/client";
+import { LoginDTO } from "../schemas/login.schema";
 
 @injectable()
 export class AuthController {
@@ -14,8 +15,8 @@ export class AuthController {
   ) { }
 
   login = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    const auth = await this.service.login(email, password);
+    const dto = req.body as LoginDTO;
+    const auth = await this.service.login(dto);
     return res.json(auth);
   }
 
