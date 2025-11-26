@@ -12,10 +12,27 @@ export class CategoryRepository extends Repository<Category> {
     })
   }
 
-  async getByUserId(userId: number, include?: Prisma.CategoryInclude) {
+  async getByUserId(
+    userId: number
+  ): Promise<Category[]>;
+
+  async getByUserId<T extends Prisma.CategoryInclude>(
+    userId: number,
+    include: T
+  ): Promise<
+    Prisma.CategoryGetPayload<{ include: T }>[]
+  >;
+
+  async getByUserId(
+    userId: number,
+    include?: Prisma.CategoryInclude
+  ) {
     return this.prisma.category.findMany({
       where: { userId },
-      ...(include && { include: include })
-    })
+      ...(include && { include })
+    });
   }
+
+
+
 }
