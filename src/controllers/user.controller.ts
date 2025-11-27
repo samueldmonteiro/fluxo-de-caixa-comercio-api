@@ -26,7 +26,6 @@ export class UserController {
 
   movements = async (req: Request, res: Response) => {
     try {
-      console.log("AQUIII", req.validated)
       const { search, page, limit, startDate, endDate } = req.query;
 
       const params: SimpleGetMovementsParams = {

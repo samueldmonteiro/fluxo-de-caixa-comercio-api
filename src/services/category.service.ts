@@ -18,7 +18,6 @@ export class CategoryService {
       ...dto,
       userId
     });
-
     return category;
   }
 
@@ -30,7 +29,6 @@ export class CategoryService {
     dto.name = dto.name ?? category.name;
 
     const categoryUpdated = await this.categoryRepo.update<UpdateCategoryDTO>(categoryId, dto);
-
     return categoryUpdated;
   }
 

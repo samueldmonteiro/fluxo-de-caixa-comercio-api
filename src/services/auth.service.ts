@@ -23,11 +23,9 @@ export class AuthService {
   async login(data: LoginDTO): Promise<LoginResponse> {
 
     const user = await this.userRepository.findByEmail(data.email);
-
     if (!user) throw new AppError('Login Incorreto', 401);
 
     const passwordMatch = await bcrypt.compare(data.password, user.password);
-
     if (!passwordMatch) throw new AppError('Login Incorreto', 401);
 
     const token = jwt.sign(
