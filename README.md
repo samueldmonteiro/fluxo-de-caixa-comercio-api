@@ -110,12 +110,16 @@ yarn
 Crie o arquivo na raiz:
 
 ```env
+NODE_ENV=development
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=sua_senha
 DB_DATABASE=fluxo_caixa
 DB_PORT=3306
 JWT_SECRET=sua_key_JWT
+
+# for cli
+DATABASE_URL=mysql://root:sua_senha@localhost:3306/fluxo_caixa
 ```
 ### 4. ⚙️ Subir Banco de dados Docker
 
