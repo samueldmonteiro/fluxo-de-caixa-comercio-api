@@ -110,26 +110,36 @@ yarn
 Crie o arquivo na raiz:
 
 ```env
-DATABASE_URL="mysql://usuario:senha@localhost:3306/nome_do_banco"
-JWT_SECRET="sua_chave_secreta_aqui"
-PORT=3000
-NODE_ENV=development
 DB_HOST=localhost
-DB_PASSWORD=senha
-DB_USER=usuario
-DB_DATABASE=nome_do_banco
-DB_PORT=3306 
+DB_USER=root
+DB_PASSWORD=sua_senha
+DB_DATABASE=fluxo_caixa
+DB_PORT=3306
+JWT_SECRET=sua_key_JWT
+```
+### 3. ⚙️ Subir Banco de dados Docker
+
+```bash
+docker compose up -d
 ```
 
 ### AMBIENTE (DEV)
-#### 4. 🏗️ Gerar o client Prisma e rodar migrations
+#### 5. 🏗️ Gerar o client Prisma e rodar migrations
 
 ```bash
 yarn prisma:generate
 yarn prisma:migrate
 ```
 
-#### 5. ▶️ Iniciar o servidor
+#### 6. ▶️ RODAR SEEDS
+
+Popular banco de dados:
+
+```bash
+yarn seed
+```
+
+#### 7. ▶️ Iniciar o servidor
 
 Modo desenvolvimento:
 
@@ -139,7 +149,7 @@ yarn dev
 
 ### AMBIENTE (PROD)
 
-#### 4. 🏗️ Gerar o client Prisma e rodar migrations
+#### 5. 🏗️ Gerar o client Prisma e rodar migrations
 
 ```bash
 yarn prisma:generate
@@ -147,7 +157,7 @@ yarn prisma:deploy
 
 ```
 
-#### 5. ▶️ Iniciar o servidor
+#### 6. ▶️ Iniciar o servidor
 
 Modo desenvolvimento:
 
