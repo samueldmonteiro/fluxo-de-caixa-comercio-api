@@ -194,9 +194,6 @@ Pull requests são bem-vindos.
 
 ---
 
-
----
-
 ## ✨ Autor
 
 Desenvolvido por **Samuel Davi**
