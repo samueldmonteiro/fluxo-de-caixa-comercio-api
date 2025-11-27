@@ -117,7 +117,7 @@ DB_DATABASE=fluxo_caixa
 DB_PORT=3306
 JWT_SECRET=sua_key_JWT
 ```
-### 3. ⚙️ Subir Banco de dados Docker
+### 4. ⚙️ Subir Banco de dados Docker
 
 ```bash
 docker compose up -d
