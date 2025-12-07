@@ -19,8 +19,8 @@ const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
   "clientVersion": "7.0.0",
   "engineVersion": "0c19ccc313cf9911a90d99d2ac2eb0280c76c513",
-  "activeProvider": "mysql",
-  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel User {\n  id         Int        @id @default(autoincrement())\n  name       String     @db.VarChar(100)\n  email      String     @unique @db.VarChar(100)\n  password   String     @db.VarChar(200)\n  movements  Movement[]\n  role       UserRole   @default(USER)\n  categories Category[]\n\n  @@map(\"users\")\n}\n\nenum UserRole {\n  USER\n  ADMIN\n}\n\nmodel Category {\n  id        Int        @id @default(autoincrement())\n  movements Movement[]\n  name      String     @db.VarChar(200)\n  userId    Int?\n  user      User?      @relation(fields: [userId], references: [id], onDelete: SetNull)\n\n  @@map(\"categories\")\n}\n\nmodel Movement {\n  id          Int          @id @default(autoincrement())\n  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)\n  categoryId  Int?\n  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)\n  userId      Int?\n  type        MovementType\n  description String?      @db.Text\n  value       Decimal      @db.Decimal(10, 2)\n  date        DateTime     @default(now())\n\n  @@map(\"movements\")\n}\n\nenum MovementType {\n  INCOME\n  EXPENSE\n}\n",
+  "activeProvider": "postgresql",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id         Int        @id @default(autoincrement())\n  name       String     @db.VarChar(100)\n  email      String     @unique @db.VarChar(100)\n  password   String     @db.VarChar(200)\n  movements  Movement[]\n  role       UserRole   @default(USER)\n  categories Category[]\n\n  @@map(\"users\")\n}\n\nenum UserRole {\n  USER\n  ADMIN\n}\n\nmodel Category {\n  id        Int        @id @default(autoincrement())\n  movements Movement[]\n  name      String     @db.VarChar(200)\n  userId    Int?\n  user      User?      @relation(fields: [userId], references: [id], onDelete: SetNull)\n\n  @@map(\"categories\")\n}\n\nmodel Movement {\n  id          Int          @id @default(autoincrement())\n  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)\n  categoryId  Int?\n  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)\n  userId      Int?\n  type        MovementType\n  description String?      @db.Text\n  value       Decimal      @db.Decimal(10, 2)\n  date        DateTime     @default(now())\n\n  @@map(\"movements\")\n}\n\nenum MovementType {\n  INCOME\n  EXPENSE\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -37,10 +37,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.mysql.mjs"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.mjs"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.mysql.wasm-base64.mjs")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.mjs")
     return await decodeBase64AsWasm(wasm)
   }
 }

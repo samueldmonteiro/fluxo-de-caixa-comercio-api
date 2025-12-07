@@ -1,24 +1,18 @@
-import 'dotenv/config';
-import { PrismaMariaDb } from '@prisma/adapter-mariadb'
 import { PrismaClient } from '../generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
 
-function requiredEnv(name: string): string {
-  const value = process.env[name]
-  if (!value) {
-    throw new Error(`Missing required environment variable: ${name}`)
-  }
-  return value
+const globalForPrisma = global as unknown as {
+  prisma: PrismaClient
 }
 
-const adapter = new PrismaMariaDb({
-  host: requiredEnv('DB_HOST'),
-  port: Number(requiredEnv('DB_PORT')),
-  user: process.env.DB_USER || 'root',
-  password: requiredEnv('DB_PASSWORD'),
-  database: requiredEnv('DB_DATABASE'),
-  connectionLimit: 5
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
 })
 
-const prisma = new PrismaClient({ adapter })
+const prisma = globalForPrisma.prisma || new PrismaClient({
+  adapter,
+})
 
-export default prisma
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+
+export default prisma;

@@ -258,7 +258,6 @@ export type MovementOrderByWithRelationInput = {
   date?: Prisma.SortOrder
   category?: Prisma.CategoryOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
-  _relevance?: Prisma.MovementOrderByRelevanceInput
 }
 
 export type MovementWhereUniqueInput = Prisma.AtLeast<{
@@ -377,12 +376,6 @@ export type MovementListRelationFilter = {
 
 export type MovementOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
-}
-
-export type MovementOrderByRelevanceInput = {
-  fields: Prisma.MovementOrderByRelevanceFieldEnum | Prisma.MovementOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type MovementCountOrderByAggregateInput = {
@@ -716,7 +709,29 @@ export type MovementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   user?: boolean | Prisma.Movement$userArgs<ExtArgs>
 }, ExtArgs["result"]["movement"]>
 
+export type MovementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  categoryId?: boolean
+  userId?: boolean
+  type?: boolean
+  description?: boolean
+  value?: boolean
+  date?: boolean
+  category?: boolean | Prisma.Movement$categoryArgs<ExtArgs>
+  user?: boolean | Prisma.Movement$userArgs<ExtArgs>
+}, ExtArgs["result"]["movement"]>
 
+export type MovementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  categoryId?: boolean
+  userId?: boolean
+  type?: boolean
+  description?: boolean
+  value?: boolean
+  date?: boolean
+  category?: boolean | Prisma.Movement$categoryArgs<ExtArgs>
+  user?: boolean | Prisma.Movement$userArgs<ExtArgs>
+}, ExtArgs["result"]["movement"]>
 
 export type MovementSelectScalar = {
   id?: boolean
@@ -730,6 +745,14 @@ export type MovementSelectScalar = {
 
 export type MovementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "categoryId" | "userId" | "type" | "description" | "value" | "date", ExtArgs["result"]["movement"]>
 export type MovementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  category?: boolean | Prisma.Movement$categoryArgs<ExtArgs>
+  user?: boolean | Prisma.Movement$userArgs<ExtArgs>
+}
+export type MovementIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  category?: boolean | Prisma.Movement$categoryArgs<ExtArgs>
+  user?: boolean | Prisma.Movement$userArgs<ExtArgs>
+}
+export type MovementIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   category?: boolean | Prisma.Movement$categoryArgs<ExtArgs>
   user?: boolean | Prisma.Movement$userArgs<ExtArgs>
 }
@@ -866,6 +889,30 @@ export interface MovementDelegate<ExtArgs extends runtime.Types.Extensions.Inter
   createMany<T extends MovementCreateManyArgs>(args?: Prisma.SelectSubset<T, MovementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Movements and returns the data saved in the database.
+   * @param {MovementCreateManyAndReturnArgs} args - Arguments to create many Movements.
+   * @example
+   * // Create many Movements
+   * const movement = await prisma.movement.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Movements and only return the `id`
+   * const movementWithIdOnly = await prisma.movement.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends MovementCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, MovementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MovementPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Movement.
    * @param {MovementDeleteArgs} args - Arguments to delete one Movement.
    * @example
@@ -928,6 +975,36 @@ export interface MovementDelegate<ExtArgs extends runtime.Types.Extensions.Inter
    * 
    */
   updateMany<T extends MovementUpdateManyArgs>(args: Prisma.SelectSubset<T, MovementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Movements and returns the data updated in the database.
+   * @param {MovementUpdateManyAndReturnArgs} args - Arguments to update many Movements.
+   * @example
+   * // Update many Movements
+   * const movement = await prisma.movement.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Movements and only return the `id`
+   * const movementWithIdOnly = await prisma.movement.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends MovementUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, MovementUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MovementPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Movement.
@@ -1359,6 +1436,29 @@ export type MovementCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
 }
 
 /**
+ * Movement createManyAndReturn
+ */
+export type MovementCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Movement
+   */
+  select?: Prisma.MovementSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Movement
+   */
+  omit?: Prisma.MovementOmit<ExtArgs> | null
+  /**
+   * The data used to create many Movements.
+   */
+  data: Prisma.MovementCreateManyInput | Prisma.MovementCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MovementIncludeCreateManyAndReturn<ExtArgs> | null
+}
+
+/**
  * Movement update
  */
 export type MovementUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1400,6 +1500,36 @@ export type MovementUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Movements to update.
    */
   limit?: number
+}
+
+/**
+ * Movement updateManyAndReturn
+ */
+export type MovementUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Movement
+   */
+  select?: Prisma.MovementSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Movement
+   */
+  omit?: Prisma.MovementOmit<ExtArgs> | null
+  /**
+   * The data used to update Movements.
+   */
+  data: Prisma.XOR<Prisma.MovementUpdateManyMutationInput, Prisma.MovementUncheckedUpdateManyInput>
+  /**
+   * Filter which Movements to update
+   */
+  where?: Prisma.MovementWhereInput
+  /**
+   * Limit how many Movements to update.
+   */
+  limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MovementIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
