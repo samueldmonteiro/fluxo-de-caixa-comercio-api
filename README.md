@@ -11,7 +11,7 @@ Construída sobre uma stack sólida — **Node.js + Express + Prisma + TypeScrip
 - **TypeScript**
 - **Express**
 - **Prisma ORM**
-- **MySQL**
+- **PostgreSQL**
 - **Swagger (OpenAPI)**
 - **JWT Authentication**
 - **TSyringe (DI)**
@@ -110,16 +110,17 @@ yarn
 Crie o arquivo na raiz:
 
 ```env
+# DOCKER COMPOSE
 NODE_ENV=development
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=sua_senha
-DB_DATABASE=fluxo_caixa
-DB_PORT=3306
-JWT_SECRET=sua_key_JWT
+DB_USER=your_user
+DB_PASSWORD=your_password
+DB_DATABASE=your_database
 
-# for cli
-DATABASE_URL=mysql://root:sua_senha@localhost:3306/fluxo_caixa
+# JWT
+JWT_SECRET=
+
+# PRISMA
+DATABASE_URL="postgresql://your_user:your_password@localhost:5432/your_database"
 ```
 ### 4. ⚙️ Subir Banco de dados Docker
 
